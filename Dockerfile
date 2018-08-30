@@ -46,4 +46,3 @@ LABEL org.label-schema.schema-version=$org_label_schema_schema_version \
       org.opencord.component.xos.vcs-ref=$org_opencord_component_xos_vcs_ref
 
 ENTRYPOINT [ "/usr/bin/python", "src/main.py" ]
-
