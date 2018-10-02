@@ -1,7 +1,7 @@
 # docker build -t xosproject/xos-tosca:candidate .
 
 # xosproject/xos-tosca
-FROM cachengo/xos-client:2.1.12
+FROM cachengo/xos-client:2.1.13
 
 # Set environment variables
 ENV CODE_SOURCE .
