@@ -1,7 +1,7 @@
 # docker build -t xosproject/xos-tosca:candidate .
 
 # xosproject/xos-tosca
-FROM cachengo/xos-client:2.0.0
+FROM cachengo/xos-client:2.1.32
 
 # Set environment variables
 ENV CODE_SOURCE .
@@ -12,7 +12,7 @@ WORKDIR ${CODE_DEST}
 COPY ${CODE_SOURCE}/ ${CODE_DEST}/
 
 # Install dependencies
-RUN pip install -r ${CODE_DEST}/pip_requirements.txt
+RUN pip install klein==16.12.0
 
 EXPOSE 9102
 
@@ -46,4 +46,3 @@ LABEL org.label-schema.schema-version=$org_label_schema_schema_version \
       org.opencord.component.xos.vcs-ref=$org_opencord_component_xos_vcs_ref
 
 ENTRYPOINT [ "/usr/bin/python", "src/main.py" ]
-

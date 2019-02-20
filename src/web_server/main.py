@@ -39,18 +39,20 @@ class TOSCA_WebServer:
 
     app = Klein()
 
-    def execute_tosca(self, recipe):
-        self.parser.execute()
-        if self.parser.delete:
-            response_text = "Deleted models: %s" % str(self.parser.ordered_models_name)
+    def execute_tosca(self, parser):
+        parser.execute()
+        if parser.delete:
+            response_text = "Deleted models: %s" % str(parser.ordered_models_name)
         else:
-            response_text = "Created models: %s" % str(self.parser.ordered_models_name)
+            response_text = "Created models: %s" % str(parser.ordered_models_name)
         return response_text
 
     def errorCallback(self, failure, request):
         request.setResponseCode(500)
         try:
             f = failure.getErrorMessage()
+            if f.startswith("XOSPermissionDenied"):
+                request.setResponseCode(401)
             log.info("[XOS-TOSCA] Error while loading TOSCA: \n\n", failure=f)
             return f
         except Exception:
@@ -81,8 +83,8 @@ class TOSCA_WebServer:
         username = headers['xos-username']
         password = headers['xos-password']
 
-        d = GRPC_Client().create_secure_client(username, password, recipe)
-        self.parser = TOSCA_Parser(recipe, username, password)
+        parser = TOSCA_Parser(recipe, username, password)
+        d = GRPC_Client().create_secure_client(username, password, parser)
         tosca_execution = d.addCallback(self.execute_tosca)
         tosca_execution.addErrback(self.errorCallback, request)
         return d
@@ -94,8 +96,8 @@ class TOSCA_WebServer:
         username = headers['xos-username']
         password = headers['xos-password']
 
-        d = GRPC_Client().create_secure_client(username, password, recipe)
-        self.parser = TOSCA_Parser(recipe, username, password, delete=True)
+        parser = TOSCA_Parser(recipe, username, password, delete=True)
+        d = GRPC_Client().create_secure_client(username, password, parser)
         tosca_execution = d.addCallback(self.execute_tosca)
         tosca_execution.addErrback(self.errorCallback, request)
         return d
