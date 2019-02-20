@@ -1,4 +1,5 @@
 export IMAGE_TAG=$(cat VERSION)
+export DOCKER_CLI_EXPERIMENTAL=enabled
 
 docker manifest create --amend cachengo/xos-tosca:$IMAGE_TAG cachengo/xos-tosca-x86_64:$IMAGE_TAG cachengo/xos-tosca-aarch64:$IMAGE_TAG
 docker manifest push cachengo/xos-tosca:$IMAGE_TAG
