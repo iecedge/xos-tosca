@@ -14,7 +14,7 @@
 
 # xosproject/xos-tosca
 
-FROM xosproject/alpine-grpc-base:0.9.0
+FROM iecedge/alpine-grpc-base:0.9.1
 
 # Set environment variables
 ENV CODE_DEST /opt/xos-tosca
